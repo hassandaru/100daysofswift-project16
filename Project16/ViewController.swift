@@ -8,7 +8,7 @@
 import UIKit
 import MapKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet var mapView: MKMapView!
     
     override func viewDidLoad() {
@@ -20,7 +20,8 @@ class ViewController: UIViewController {
         let paris = Capital(title: "Paris", coordinate: CLLocationCoordinate2D(latitude: 48.8567, longitude: 2.3508), info: "Often called the City of Light.")
         let rome = Capital(title: "Rome", coordinate: CLLocationCoordinate2D(latitude: 41.9, longitude: 12.5), info: "Has a whole country inside it.")
         let washington = Capital(title: "Washington DC", coordinate: CLLocationCoordinate2D(latitude: 38.895111, longitude: -77.036667), info: "Named after George himself.")
-        
+        let alice = Capital(title: "Alice Springs", coordinate: CLLocationCoordinate2D(latitude: -23.6980, longitude: 133.8807), info: "Mosti hometown.")
+        let brisbane = Capital(title: "Brisbane", coordinate: CLLocationCoordinate2D(latitude: -27.4705, longitude: 153.0260), info: "janaaa.")
         /*
         mapView.addAnnotation(london)
         mapView.addAnnotation(oslo)
@@ -28,7 +29,33 @@ class ViewController: UIViewController {
         mapView.addAnnotation(rome)
         mapView.addAnnotation(washington)
         */
-        mapView.addAnnotations([london, oslo, paris, rome, washington])
+        mapView.addAnnotations([london, oslo, paris, rome, washington, alice, brisbane])
+    }
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        // 1
+        guard annotation is Capital else { return nil }
+
+        // 2
+        let identifier = "Capital"
+
+        // 3
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+
+        if annotationView == nil {
+            //4
+            annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            annotationView?.canShowCallout = true
+
+            // 5
+            let btn = UIButton(type: .detailDisclosure)
+            annotationView?.rightCalloutAccessoryView = btn
+        } else {
+            // 6
+            annotationView?.annotation = annotation
+        }
+
+        return annotationView
     }
 
 
