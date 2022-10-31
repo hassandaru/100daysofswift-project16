@@ -20,8 +20,8 @@ class ViewController: UIViewController, MKMapViewDelegate {
         let paris = Capital(title: "Paris", coordinate: CLLocationCoordinate2D(latitude: 48.8567, longitude: 2.3508), info: "Often called the City of Light.")
         let rome = Capital(title: "Rome", coordinate: CLLocationCoordinate2D(latitude: 41.9, longitude: 12.5), info: "Has a whole country inside it.")
         let washington = Capital(title: "Washington DC", coordinate: CLLocationCoordinate2D(latitude: 38.895111, longitude: -77.036667), info: "Named after George himself.")
-        let alice = Capital(title: "Alice Springs", coordinate: CLLocationCoordinate2D(latitude: -23.6980, longitude: 133.8807), info: "Mosti hometown.")
-        let brisbane = Capital(title: "Brisbane", coordinate: CLLocationCoordinate2D(latitude: -27.4705, longitude: 153.0260), info: "janaaa.")
+        let alice = Capital(title: "Alice Springs", coordinate: CLLocationCoordinate2D(latitude: -23.6980, longitude: 133.8807), info: "this is where the snakes come from.")
+        let brisbane = Capital(title: "Brisbane", coordinate: CLLocationCoordinate2D(latitude: -27.4705, longitude: 153.0260), info: "noice and rainy.")
         /*
         mapView.addAnnotation(london)
         mapView.addAnnotation(oslo)
@@ -58,6 +58,14 @@ class ViewController: UIViewController, MKMapViewDelegate {
         return annotationView
     }
 
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        guard let capital = view.annotation as? Capital else { return }
+        let placeName = capital.title
+        let placeInfo = capital.info
 
+        let ac = UIAlertController(title: placeName, message: placeInfo, preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .default))
+        present(ac, animated: true)
+    }
 }
 
