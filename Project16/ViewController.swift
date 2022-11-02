@@ -76,12 +76,15 @@ class ViewController: UIViewController, MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         guard let capital = view.annotation as? Capital else { return }
-//        let placeName = capital.title
+        guard let placeName = capital.title else { return }
 //        let placeInfo = capital.info
 //        
 //        let ac = UIAlertController(title: placeName, message: placeInfo, preferredStyle: .alert)
 //        ac.addAction(UIAlertAction(title: "OK", style: .default))
 //        present(ac, animated: true)
+        
+        //challenge 2 show and give user option to select terrain of mapview type
+        
         //step 1 list an array of types of maps
         //step 2 show the list in UIAlertAction as separate buttons which are clickable.
         //step 3 , when pressed, call a closure that will change mapView mapType to the selected item.
@@ -89,35 +92,47 @@ class ViewController: UIViewController, MKMapViewDelegate {
         //        let arrayOfMayTypes = ["standard" : standard,
         //                               "hybrid" : hybrid, "satellite" : satellite,
         //                               "satelliteFlyover": satelliteFlyover]
-        let arrayOfMayTypesText = ["standard" ,"hybrid", "satellite", "satelliteFlyover"]
-        // standard / hybrid / satellite / satelliteFlyOver
-        let ac2 = UIAlertController(title: "Terrain", message: "Choose the type of terrain", preferredStyle: .alert)
-        for type in arrayOfMayTypesText {
-            ac2.addAction(UIAlertAction(title: type, style: .default) { [weak  mapView, type] _ in
-                switch(type) {
-                case "standard":
-                    mapView?.mapType = MKMapType.standard
-                    break
-                case "hybrid":
-                    mapView?.mapType = MKMapType.hybrid
-                    break
-                case "satellite":
-                    mapView?.mapType = MKMapType.satellite
-                    break
-                case "satelliteFlyover":
-                    mapView?.mapType = MKMapType.satelliteFlyover
-                    break
-                default:
-                    mapView?.mapType = MKMapType.standard
-                    
-                }
-                
-            })
-            
-        }
-        present(ac2, animated: true)
+//        let arrayOfMayTypesText = ["standard" ,"hybrid", "satellite", "satelliteFlyover"]
+//        // standard / hybrid / satellite / satelliteFlyOver
+//        let ac2 = UIAlertController(title: "Terrain", message: "Choose the type of terrain", preferredStyle: .alert)
+//        for type in arrayOfMayTypesText {
+//            ac2.addAction(UIAlertAction(title: type, style: .default) { [weak  mapView, type] _ in
+//                switch(type) {
+//                case "standard":
+//                    mapView?.mapType = MKMapType.standard
+//                    break
+//                case "hybrid":
+//                    mapView?.mapType = MKMapType.hybrid
+//                    break
+//                case "satellite":
+//                    mapView?.mapType = MKMapType.satellite
+//                    break
+//                case "satelliteFlyover":
+//                    mapView?.mapType = MKMapType.satelliteFlyover
+//                    break
+//                default:
+//                    mapView?.mapType = MKMapType.standard
+//
+//                }
+//
+//            })
+//
+//        }
+//        present(ac2, animated: true)
         
-
+//Challenge 3 search on wikepedia and show result of webview
+        // search API that will get appended
+        let wikiString = "https://en.wikipedia.org/wiki/Special:Search?search="
+        let searchString = wikiString + placeName
+        
+        //now open webview and show it.
+        // 1: try loading the "Detail" view controller and typecasting it to be DetailViewController
+        if let vc = storyboard?.instantiateViewController(withIdentifier: "Detail") as? DetailViewController {
+            vc.urlValue = searchString
+            // 3: now push it onto the navigation controller
+            navigationController?.pushViewController(vc, animated: true)
+        }
+        
     }
 }
 
